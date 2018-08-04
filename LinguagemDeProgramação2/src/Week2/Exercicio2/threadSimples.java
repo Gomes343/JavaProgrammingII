@@ -4,27 +4,45 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class threadSimples extends Thread{
-    int value;
-    int valuefilho;
+    int min;
+    int max;
+    int x;
+    long tempo;
     
-    threadSimples(int v){
-        this.value = v;
+    threadSimples(int m,int maximo,long tempo){
+        this.min = m;
+        this.max = maximo;
+        x = m;
+        this.tempo = tempo;
     }
     
     // esse código é executando quando a thread é inicializada
     public void run(){
-        while(valuefilho < 1000){
+        while(x < max){
+
+            if(ehPrimo(x))
+                System.out.println(x);
             
-            if(valuefilho%2==1 && valuefilho%3==1)
-                value = value + valuefilho;
- 
-        valuefilho++;    
-        try {
-              sleep(200);
-          } catch (InterruptedException ex) {
-              Logger.getLogger(threadSimples.class.getName()).log(Level.SEVERE, null, ex);
-          }
-          
+            x++;
+            
       }
+        //tempo = System.currentTimeMillis()-tempoInicio;
+    }
+    
+        public boolean ehPrimo(int valor) {
+        if (valor < 2) {
+            return false;
+        }
+        if (valor == 2) {
+            return true;
+        }
+
+        for (int i = (valor - 1); i >= 2; i--) {
+            if ((valor % i) == 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
