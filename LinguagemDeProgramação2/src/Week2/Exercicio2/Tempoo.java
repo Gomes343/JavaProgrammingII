@@ -1,14 +1,16 @@
 
 package Week2.Exercicio2;
 
-public class Tempo {
+public class Tempoo {
     
     
     long valor;
 
-    public Tempo(long t){
+    long t;
+    public Tempoo(long t){
         this.valor = t;
     }
+
     public long getValor() {
         return valor;
     }

@@ -7,13 +7,13 @@ public class threadSimples extends Thread{
     int min;
     int max;
     int x;
-    long tempo;
+    Tempoo tempo;
     
-    threadSimples(int m,int maximo,long tempo){
+    threadSimples(int m,int maximo,Tempoo t){
         this.min = m;
         this.max = maximo;
         x = m;
-        this.tempo = tempo;
+        this.tempo = t;
     }
     
     // esse código é executando quando a thread é inicializada
@@ -26,7 +26,7 @@ public class threadSimples extends Thread{
             x++;
             
       }
-        //tempo = System.currentTimeMillis()-tempoInicio;
+       // Tempoo.t = System.currentTimeMillis() - Tempoo.valor;
     }
     
         public boolean ehPrimo(int valor) {
