@@ -7,19 +7,26 @@ public class Main {
         int value = 0;
         //Implemente um contador com operações de incremento e decremento
         //que nunca fique inferior a zero, nem superior a 100.
+
+        Contador contador = new Contador();
+
         
-        threadSimples a = new threadSimples(value);
+        
+        //threadSimples up = new threadSimples("up",contador);
+        //threadSimples down = new threadSimples("down",contador);
+        
         Scanner sc = new Scanner(System.in);
+            
+                threadSimples up = new threadSimples("up",contador);
+                up.start();
+            
+                threadSimples down = new threadSimples("down",contador);
+                down.start();
+            
         
-        a.start();
+
         
-        String x = sc.nextLine();
-        
-        if(x != null)
-            a.stop();
-        
-        
-        
+
         
         
     }

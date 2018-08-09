@@ -5,40 +5,73 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class threadSimples extends Thread{
-    int x = 0;
     int value;
+    Contador contador = new Contador();
+    String choice;
     
-    threadSimples(int value){
-        this.value = value;
+    threadSimples(String c, Contador co){
+        this.choice = c;
+        this.contador = co;
     }
     
     // esse código é executando quando a thread é inicializada
     public void run(){
         while(true){
-        if(value == 100){
-            while(value != 0){
-                value--;
-                System.out.println(value);
-                try {
-                    sleep(25);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(threadSimples.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }            
-        }
-        
-        if(value == 0){
-            while(value != 100){
-                System.out.println(value);
-                value++;
-                try {
-                    sleep(25);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(threadSimples.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            switch(choice){
+                case "up":
+                    up();
+                    
+                case "down":
+                    down();
+                    
             }
-        }
+
         }
     }
 
+    public void up(){
+        while(true){
+
+             if(contador.getX() == 0){
+                 while(contador.getX() != 100){
+                 value = contador.getX();
+                 contador.setX(value+1);
+                 System.out.println(contador.getX());
+                 try {
+                     sleep(35);
+                 } catch (InterruptedException ex) {
+                     Logger.getLogger(threadSimples.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+                 }
+             }   
+             try {
+                sleep(1900);
+             } catch (InterruptedException ex) {
+                Logger.getLogger(threadSimples.class.getName()).log(Level.SEVERE, null, ex);
+             }  
+        }
+    }
+    public void down(){
+        while(true){
+             if(contador.getX() == 100){
+                 while(contador.getX() != 0){
+                     value = contador.getX();
+                     contador.setX(value-1);
+                     System.out.println(contador.getX());
+                 try {
+                     sleep(35);
+                 } catch (InterruptedException ex) {
+                     Logger.getLogger(threadSimples.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+                 }
+                 
+
+             }    
+             try {
+                sleep(1900);
+             } catch (InterruptedException ex) {
+                Logger.getLogger(threadSimples.class.getName()).log(Level.SEVERE, null, ex);
+             }
+        }
+    }
 }

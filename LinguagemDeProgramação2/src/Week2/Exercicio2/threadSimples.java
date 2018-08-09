@@ -7,13 +7,11 @@ public class threadSimples extends Thread{
     int min;
     int max;
     int x;
-    Tempoo tempo;
     
-    threadSimples(int m,int maximo,Tempoo t){
+    threadSimples(int m,int maximo){
         this.min = m;
         this.max = maximo;
         x = m;
-        this.tempo = t;
     }
     
     // esse código é executando quando a thread é inicializada
