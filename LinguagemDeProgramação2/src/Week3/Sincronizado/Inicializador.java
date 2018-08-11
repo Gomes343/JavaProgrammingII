@@ -2,7 +2,7 @@ package Week3.Sincronizado;
 
 import static java.lang.Thread.sleep;
 
-public class Sincronizacao {
+public class Inicializador{
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -31,7 +31,7 @@ public class Sincronizacao {
          System.out.println("Saldo inicial: " + a123cc4343x.saldoAtual());
          System.out.println("--------------------------------------");
          
-         caixaEletronicoSaque operacao5 = new caixaEletronicoSaque(a123cc4343x, 500);
+         caixaEletronicoSaque operacao5 = new caixaEletronicoSaque(a123cc4343x, 50000);
          caixaEletronicoSaque operacao6 = new caixaEletronicoSaque(a123cc4343x, 150);
          
          operacao5.start();

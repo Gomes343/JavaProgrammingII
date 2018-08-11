@@ -11,8 +11,11 @@ public class caixaEletronicoSaque extends Thread{
     
     @Override
     public void run(){
- 
-       this.cc.sacarSinc(this.valor);
+        
+       if(cc.saldoAtual() > this.valor)
+        this.cc.sacarSinc(this.valor);
+       else
+        System.out.println("Não há saldo suficiente!\n");
        
     }
     
