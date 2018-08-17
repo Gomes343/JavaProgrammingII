@@ -34,17 +34,19 @@ public class Escritor extends Thread{
     
     public void GerarMensagem(){
         
-        mensagens.add("Planetas");
-        mensagens.add("Galaxias");
-        mensagens.add("Estrelas");
-        mensagens.add("Luz");
-        mensagens.add("Gravidade");
-        
-        
-        
-        
-        
-        
+        mensagens.add("Palavra 1");
+        mensagens.add("Palavra 2");
+        mensagens.add("Palavra 3");
+        mensagens.add("Palavra 4");
+        mensagens.add("Palavra 5");
+        mensagens.add("Palavra 6");
+        mensagens.add("Palavra 7");
+        mensagens.add("Palavra 8");
+        mensagens.add("Palavra 9");
+        mensagens.add("Palavra 10");
+        mensagens.add("Palavra 11");
+        mensagens.add("Palavra 12");
+
         
         /*
         if(i < 50){

@@ -6,6 +6,7 @@ public class Leitor extends Thread{
     
     Mensagem m;
     String mensagem;
+    int i = 0;
     
     public Leitor(Mensagem m){
         this.m = m;
@@ -16,7 +17,8 @@ public class Leitor extends Thread{
             System.out.println("Não há mensagem para ler");
         else{   
             this.m.LerMensagem();
-            if(m.finalizado == true)
+            i++;
+            if(i == 12)
                 stop();
         }    
     }
