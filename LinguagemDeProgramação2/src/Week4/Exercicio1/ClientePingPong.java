@@ -31,7 +31,6 @@ public class ClientePingPong {
     Scanner entrada = new Scanner(cliente.getInputStream());
     boolean VezDoCliente = false;
     
-    teclado.
      System.out.println("Eu sou o Cliente! - Aguarde sua vez");
      while (true) {
 
