@@ -12,7 +12,7 @@ public class Cliente {
     public static void main(String[] args) throws UnknownHostException, IOException {
         
         //O IP se refere a qual maquina da sala se conectar
-        Socket cliente = new Socket("10.10.117.16", 12345);
+        Socket cliente = new Socket("127.0.0.1", 12345);
 
         Scanner teclado = new Scanner(System.in);
         PrintStream saida = new PrintStream(cliente.getOutputStream());
@@ -24,13 +24,16 @@ public class Cliente {
           ThreadRecebedor recebedor = new ThreadRecebedor(cliente);        
           
         while(true){
-
+          
+          
           enviador.run();
           
-
+          
           recebedor.run();
+
+          
 
             
         }    
-   }
+    }
 }
