@@ -41,16 +41,16 @@ public class ThreadSocket extends Thread{
             if(entrada.hasNextLine()){
                 entry = entrada.nextLine();
                 if(!entry.isEmpty()){
-                    System.out.println("processado pela thread!");
+                    System.out.println("mensagem: "+entry+" processado pela thread!");
                     try {
-                        format(entry,posicao);
+                        format(entry);
                     } catch (IOException ex) {
                         Logger.getLogger(ThreadSocket.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }    
             }
     }
-    static void switchcase(String[] parts,int posicao) throws IOException{
+    private void switchcase(String[] parts,int posicao) throws IOException{
         String choicer = parts[0];
         switch(choicer){
             case "help":
@@ -60,7 +60,7 @@ public class ThreadSocket extends Thread{
                         + "\ntransmitir:remetente:destinatário:texto da mensagem");
                 break;
             case "login": 
-                if(comandos.login(parts[1],posicao))
+                if(comandos.login(parts[1],this))
                     saida.println("O nome de Usuario foi Registrado com Sucesso");
                 else
                     saida.println("O Nome de Usuário não pode ser registrado");
@@ -73,7 +73,7 @@ public class ThreadSocket extends Thread{
     }
     
     
-    static boolean format(String formatar, int posicao) throws IOException{
+    private boolean format(String formatar) throws IOException{
         if(formatar.contains(":")){
             String[] parts = formatar.split(":"); 
             switchcase(parts,posicao);

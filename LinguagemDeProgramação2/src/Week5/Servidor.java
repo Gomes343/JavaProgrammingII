@@ -48,8 +48,8 @@ public class Servidor {
         sockets.get(i).close();
     }
         
-    public void setLogado(int i){
-        conexoes.get(i).setLogado();
+    public void setLogado(ThreadSocket a){
+        conexoes.add(a);
     }
 
     public boolean isLogado(int i){
@@ -74,9 +74,10 @@ public class Servidor {
         while(true){
             Socket Provisorio = servidor.accept();
             if(Provisorio.isConnected()){
-                System.out.println("Alguem tentando se conectar!"+Provisorio.getInetAddress().getHostAddress());
+                System.out.println("Alguem tentando se conectar! "+Provisorio.getInetAddress().getHostAddress());
                 sockets.add(Provisorio);
-                ThreadSocket t = new ThreadSocket(sockets.get(0),server,sockets.size()-1);
+                ThreadSocket t = new ThreadSocket(sockets.get(0),server,sockets.size()+1);
+                t.run();
                 conexoes.add(t);
                 conexoes.get(conexoes.size()-1).start();
             }    

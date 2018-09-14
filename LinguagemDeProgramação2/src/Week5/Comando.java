@@ -22,7 +22,7 @@ public class Comando {
         server = s;
     }
     
-   public boolean login(String nome,int posicao) throws IOException{
+   public boolean login(String nome,ThreadSocket a) throws IOException{
        for(int i = 0; i < server.getLogadosSize(); i++){
            if(server.getLogados(i).equals(nome)){
                System.out.println("erro");
@@ -31,7 +31,7 @@ public class Comando {
            }   
        }
        server.setLogados(nome);
-       server.setLogado(posicao);
+       server.setLogado(a);
        return true;       
    }
     
