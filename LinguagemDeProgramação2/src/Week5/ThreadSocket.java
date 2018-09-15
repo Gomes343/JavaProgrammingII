@@ -1,6 +1,8 @@
 package Week5;
 
 import static Week5.Servidor.comandos;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
@@ -12,16 +14,16 @@ import java.util.logging.Logger;
 
 
 public class ThreadSocket extends Thread{
-    Scanner entrada;
-    static PrintStream saida;
+            DataInputStream entrada;
+            DataOutputStream saida;
     Scanner teclado = new Scanner(System.in);
     static Servidor server = new Servidor();
     int posicao;
     boolean logado = false;
     
     public ThreadSocket(Socket p,Servidor server, int posicao) throws IOException{
-        entrada = new Scanner(p.getInputStream());
-        saida = new PrintStream(p.getOutputStream());
+            entrada = new DataInputStream(p.getInputStream()); 
+            saida = new DataOutputStream(p.getOutputStream());
         this.server = server;
         this.posicao = posicao;
 
@@ -38,8 +40,22 @@ public class ThreadSocket extends Thread{
     public void run(){
 
             String entry = null;
-            if(entrada.hasNextLine()){
-                entry = entrada.nextLine();
+            
+                try {
+                    saida.writeUTF("=== BEM VINDO ===");
+                    saida.writeUTF("Escreva -h para visualizar os comandos");
+                } catch (IOException ex) {
+                    Logger.getLogger(ThreadSocket.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+            while(true){
+                    try { 
+                        // read the message sent to this client 
+                        entry = entrada.readUTF(); 
+                    } catch (IOException e) { 
+  
+                        e.printStackTrace(); 
+                    } 
                 if(!entry.isEmpty()){
                     System.out.println("mensagem: "+entry+" processado pela thread!");
                     try {
@@ -47,27 +63,28 @@ public class ThreadSocket extends Thread{
                     } catch (IOException ex) {
                         Logger.getLogger(ThreadSocket.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }    
+                }
             }
+            
     }
     private void switchcase(String[] parts,int posicao) throws IOException{
         String choicer = parts[0];
         switch(choicer){
             case "help":
-                saida.println("login:nome"
+                saida.writeUTF("login:nome"
                         + "\nlista_usuarios:nomes"
                         + "\nmensagem:destinatário:texto da mensagem"
                         + "\ntransmitir:remetente:destinatário:texto da mensagem");
                 break;
             case "login": 
                 if(comandos.login(parts[1],this))
-                    saida.println("O nome de Usuario foi Registrado com Sucesso");
+                    saida.writeUTF("O nome de Usuario foi Registrado com Sucesso");
                 else
-                    saida.println("O Nome de Usuário não pode ser registrado");
+                    saida.writeUTF("O Nome de Usuário não pode ser registrado");
                 break;
             case "listausuarios":
                 String e = comandos.listarUsuarios(posicao);
-                    saida.println(e);
+                    saida.writeUTF(e);
                 break;
         }
     }
