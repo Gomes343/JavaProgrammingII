@@ -7,12 +7,12 @@ import java.net.*;
 import java.util.Scanner; 
   
 public class Client  
-{ 
+{
     final static int ServerPort = 12345; 
   
     public static void main(String args[]) throws UnknownHostException, IOException{ 
 
-        Socket s = new Socket("127.0.0.1", ServerPort); 
+        Socket s = new Socket("10.10.117.9", ServerPort); 
         
         Scanner sc = new Scanner(System.in); 
         DataInputStream entrada = new DataInputStream(s.getInputStream()); 

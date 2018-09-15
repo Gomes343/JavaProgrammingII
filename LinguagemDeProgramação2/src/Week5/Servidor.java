@@ -69,18 +69,24 @@ public class Servidor {
         
         Scanner teclado = new Scanner(System.in);
 
-
+        Socket Provisorio;
 
         while(true){
-            Socket Provisorio = servidor.accept();
+            try{
+            Provisorio = servidor.accept();
             if(Provisorio.isConnected()){
                 System.out.println("Alguem tentando se conectar! "+Provisorio.getInetAddress().getHostAddress());
                 sockets.add(Provisorio);
-                ThreadSocket t = new ThreadSocket(sockets.get(0),server,sockets.size()+1);
-                t.run();
+                ThreadSocket t = new ThreadSocket(sockets.get(sockets.size()-1),server,sockets.size()-1);
+                Thread d = new Thread(t);
+                d.start();
                 conexoes.add(t);
-                conexoes.get(conexoes.size()-1).start();
-            }    
+                //conexoes.get(conexoes.size()-1).start();
+            }
+            }catch(Exception e){
+                
+            }
+            
         }  
         
    }

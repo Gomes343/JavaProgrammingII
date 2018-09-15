@@ -25,8 +25,8 @@ public class Comando {
    public boolean login(String nome,ThreadSocket a) throws IOException{
        for(int i = 0; i < server.getLogadosSize(); i++){
            if(server.getLogados(i).equals(nome)){
-               System.out.println("erro");
-               server.KillConexao(i);
+               System.out.println("SERVER: Socket Morto por ser trouxa");
+               server.KillConexao(i+1);
                return false;
            }   
        }

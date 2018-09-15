@@ -13,15 +13,17 @@ import java.util.logging.Logger;
 
 
 
-public class ThreadSocket extends Thread{
+public class ThreadSocket implements Runnable{
             DataInputStream entrada;
             DataOutputStream saida;
+            Socket p;
     Scanner teclado = new Scanner(System.in);
     static Servidor server = new Servidor();
     int posicao;
     boolean logado = false;
     
     public ThreadSocket(Socket p,Servidor server, int posicao) throws IOException{
+        this.p = p;
             entrada = new DataInputStream(p.getInputStream()); 
             saida = new DataOutputStream(p.getOutputStream());
         this.server = server;
@@ -70,7 +72,7 @@ public class ThreadSocket extends Thread{
     private void switchcase(String[] parts,int posicao) throws IOException{
         String choicer = parts[0];
         switch(choicer){
-            case "help":
+            case "-h":
                 saida.writeUTF("login:nome"
                         + "\nlista_usuarios:nomes"
                         + "\nmensagem:destinatário:texto da mensagem"
@@ -95,9 +97,17 @@ public class ThreadSocket extends Thread{
             String[] parts = formatar.split(":"); 
             switchcase(parts,posicao);
             return true;
+        }else{
+            formatar = formatar.concat(":");
+            format(formatar);
         }
         return false;
     }
       
+    public void stop() throws IOException{
+        this.logado = false;
+        this.p.close();
+
+    }
 }
 

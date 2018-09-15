@@ -10,8 +10,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-class ClientHandler implements Runnable  
-{ 
+class ClientHandler implements Runnable  { 
     Scanner scn = new Scanner(System.in); 
     private String name; 
     final DataInputStream dis; 
