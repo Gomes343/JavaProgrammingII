@@ -1,3 +1,5 @@
+package Projeto_Chat_1ºBimestre;
+
 
 // Java implementation for multithreaded chat client 
 // Save file as Client.java 

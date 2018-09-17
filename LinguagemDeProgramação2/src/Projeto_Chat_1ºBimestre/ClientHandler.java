@@ -1,5 +1,5 @@
 
-package WeekX;
+package Projeto_Chat_1ºBimestre;
 
 // ClientHandler class 
 
