@@ -25,16 +25,23 @@ public class Comando {
     }
 
    public boolean login(String nome,ThreadSocket a) throws IOException{
+       if(a.isLogado() == false){
        for(int i = 0; i < server.getLogadosSize(); i++){
            if(server.getLogados(i).equals(nome)){
                System.out.println("SERVER: Socket Morto");
+               a.saida.writeUTF("O Nome de Usuário não pode ser registrado");
                server.KillConexao(i+1);
                return false;
            }   
        }
        a.setLogado(nome);
        server.setLogados(nome);
-       return true;       
+       return true; 
+       }else{
+           a.saida.writeUTF("Você já está logado!");
+           return false;
+       }
+       
    }
     
    public boolean mensagem(String rem, String dest, String text) throws IOException{
@@ -43,13 +50,13 @@ public class Comando {
        int alvo = 0;
        for(int j = 0; j < partsDests.length; j++){
         for(int i = 0; i < partsDests.length; i++){
-           if(partsDests[alvo] == server.getConexoes(i).nome)
+           if(partsDests[alvo] == server.getConexoes(i).nome){
                destinatarios.add(server.getConexoes(i));
                alvo++;
-               
+           }
         }
        }
-       if(destinatarios.size()!=0){
+       if(destinatarios.size() > 0){
            for(int i = 0; i < destinatarios.size(); i++){
                destinatarios.get(i).saida.writeUTF("mensagem de:"+rem+":"+dest+":"+text);
            }

@@ -80,8 +80,7 @@ public class ThreadSocket implements Runnable{
                     saida.writeUTF("O nome de Usuario foi Registrado com Sucesso");
                     String e = comandos.listarUsuarios();
                     saida.writeUTF(e);
-                }else
-                    saida.writeUTF("O Nome de Usuário não pode ser registrado");
+                }
                 break;
             case "mensagem":
                 if(comandos.mensagem(this.nome, parts[1], parts[2]))
