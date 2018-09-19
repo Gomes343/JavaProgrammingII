@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-class ClientHandler implements Runnable  { 
+class Old_ClientHandler implements Runnable  { 
     Scanner scn = new Scanner(System.in); 
     private String name; 
     final DataInputStream dis; 
@@ -19,7 +19,7 @@ class ClientHandler implements Runnable  {
     boolean isloggedin; 
       
     // constructor 
-    public ClientHandler(Socket s, String name, DataInputStream dis, DataOutputStream dos) { 
+    public Old_ClientHandler(Socket s, String name, DataInputStream dis, DataOutputStream dos) { 
         this.dis = dis; 
         this.dos = dos; 
         this.name = name; 
@@ -53,7 +53,7 @@ class ClientHandler implements Runnable  {
   
                 // search for the recipient in the connected devices list. 
                 // ar is the vector storing client of active users 
-                for (ClientHandler mc : Server.ar)  
+                for (Old_ClientHandler mc : Old_Server.ar)  
                 { 
                     // if the recipient is found, write on its 
                     // output stream 

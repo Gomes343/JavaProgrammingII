@@ -18,10 +18,10 @@ import java.util.*;
 import java.net.*; 
   
 // Server class 
-public class Server{ 
+public class Old_Server{ 
   
     // Vector to store active clients 
-    static Vector<ClientHandler> ar = new Vector<>(); 
+    static Vector<Old_ClientHandler> ar = new Vector<>(); 
       
     // counter for clients 
     static int i = 0; 
@@ -48,7 +48,7 @@ public class Server{
             System.out.println("Creating a new handler for this client..."); 
   
             // Create a new handler object for handling this request. 
-            ClientHandler mtch = new ClientHandler(s,"client " + i, dis, dos); 
+            Old_ClientHandler mtch = new Old_ClientHandler(s,"client " + i, dis, dos); 
   
             // Create a new Thread with this object. 
             Thread t = new Thread(mtch); 

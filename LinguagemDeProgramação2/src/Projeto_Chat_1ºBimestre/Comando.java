@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Week5;
+package Projeto_Chat_1ºBimestre;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -43,4 +43,12 @@ public class Comando {
    
        return envio;    
     }
+   
+   public String listarConexoes(){
+       String all = "";
+       for(int i = 0; i < server.getConexoesSize(); i++){
+           all = all.concat(server.getConexoes(i).socket.getInetAddress().toString()+" ");
+       }
+       return all;
+   }
 }

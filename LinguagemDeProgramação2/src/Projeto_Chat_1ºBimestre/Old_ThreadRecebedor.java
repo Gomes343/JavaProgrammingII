@@ -1,6 +1,6 @@
 package Projeto_Chat_1ºBimestre;
 
-public class ThreadRecebedor {
+public class Old_ThreadRecebedor {
 
 
 

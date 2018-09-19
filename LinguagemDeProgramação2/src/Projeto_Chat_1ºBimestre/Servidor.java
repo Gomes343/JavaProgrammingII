@@ -1,4 +1,4 @@
-package Week5;
+package Projeto_Chat_1ºBimestre;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -21,6 +21,17 @@ public class Servidor {
     public static Socket provisorio;
     public static PrintStream saida;
 
+    public ThreadSocket getConexoes(int i) {
+        return conexoes.get(i);
+    }
+
+    public void setConexoes(ArrayList<ThreadSocket> conexoes) {
+        Servidor.conexoes = conexoes;
+    }
+
+    public int getConexoesSize(){
+        return conexoes.size();
+    }
     public int getLogadosSize(){
         return logados.size();
     }

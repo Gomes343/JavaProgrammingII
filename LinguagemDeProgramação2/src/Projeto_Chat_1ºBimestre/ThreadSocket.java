@@ -1,6 +1,7 @@
-package Week5;
+package Projeto_Chat_1ºBimestre;
 
-import static Week5.Servidor.comandos;
+import Projeto_Chat_1ºBimestre.Servidor;
+import static Projeto_Chat_1ºBimestre.Servidor.comandos;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -14,16 +15,16 @@ import java.util.logging.Logger;
 
 
 public class ThreadSocket implements Runnable{
-            DataInputStream entrada;
-            DataOutputStream saida;
-            Socket p;
+    DataInputStream entrada;
+    DataOutputStream saida;
+    Socket socket;
     Scanner teclado = new Scanner(System.in);
     static Servidor server = new Servidor();
     int posicao;
     boolean logado = false;
     
     public ThreadSocket(Socket p,Servidor server, int posicao) throws IOException{
-        this.p = p;
+        this.socket = p;
             entrada = new DataInputStream(p.getInputStream()); 
             saida = new DataOutputStream(p.getOutputStream());
         this.server = server;
@@ -52,14 +53,13 @@ public class ThreadSocket implements Runnable{
             
             while(true){
                     try { 
-                        // read the message sent to this client 
                         entry = entrada.readUTF(); 
                     } catch (IOException e) { 
   
                         e.printStackTrace(); 
                     } 
                 if(!entry.isEmpty()){
-                    System.out.println("mensagem: "+entry+" processado pela thread!");
+                    System.out.println("Mensagem vindo de: "+socket.getInetAddress()+" ---- "+entry+" processado pela thread!");
                     try {
                         format(entry);
                     } catch (IOException ex) {
@@ -72,12 +72,6 @@ public class ThreadSocket implements Runnable{
     private void switchcase(String[] parts,int posicao) throws IOException{
         String choicer = parts[0];
         switch(choicer){
-            case "-h":
-                saida.writeUTF("login:nome"
-                        + "\nlista_usuarios:nomes"
-                        + "\nmensagem:destinatário:texto da mensagem"
-                        + "\ntransmitir:remetente:destinatário:texto da mensagem");
-                break;
             case "login": 
                 if(comandos.login(parts[1],this))
                     saida.writeUTF("O nome de Usuario foi Registrado com Sucesso");
@@ -88,6 +82,23 @@ public class ThreadSocket implements Runnable{
                 String e = comandos.listarUsuarios(posicao);
                     saida.writeUTF(e);
                 break;
+            case "listaconexoes":
+                String all = comandos.listarConexoes();
+                saida.writeUTF(all);
+                break;
+        }
+    }
+    private void switchcase(String info,int posicao) throws IOException{
+        switch(info){
+            case "-h":
+                saida.writeUTF("login:nome"
+                        + "\nlista_usuarios:nomes"
+                        + "\nmensagem:destinatário:texto da mensagem"
+                        + "\ntransmitir:remetente:destinatário:texto da mensagem");
+                break;
+            default:
+                saida.writeUTF("Não contêm um comando em sua mensagem;");
+                break;
         }
     }
     
@@ -97,17 +108,14 @@ public class ThreadSocket implements Runnable{
             String[] parts = formatar.split(":"); 
             switchcase(parts,posicao);
             return true;
-        }else{
-            formatar = formatar.concat(":");
-            format(formatar);
         }
-        return false;
+            switchcase(formatar,posicao);
+            return true;
     }
       
     public void stop() throws IOException{
         this.logado = false;
-        this.p.close();
-
+        this.socket.close();
     }
 }
 
