@@ -59,9 +59,6 @@ public class Servidor {
         sockets.get(i).close();
     }
         
-    public void setLogado(ThreadSocket a){
-        conexoes.add(a);
-    }
 
     public boolean isLogado(int i){
         return conexoes.get(i).isLogado();
@@ -97,6 +94,8 @@ public class Servidor {
             }catch(Exception e){
                 
             }
+            
+            
             
         }  
         

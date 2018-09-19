@@ -5,9 +5,11 @@
  */
 package Projeto_Chat_1ºBimestre;
 
+import static Projeto_Chat_1ºBimestre.Servidor.conexoes;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,33 +23,56 @@ public class Comando {
         servidorConexão = sc;
         server = s;
     }
-    
+
    public boolean login(String nome,ThreadSocket a) throws IOException{
        for(int i = 0; i < server.getLogadosSize(); i++){
            if(server.getLogados(i).equals(nome)){
-               System.out.println("SERVER: Socket Morto por ser trouxa");
+               System.out.println("SERVER: Socket Morto");
                server.KillConexao(i+1);
                return false;
            }   
        }
+       a.setLogado(nome);
        server.setLogados(nome);
-       server.setLogado(a);
        return true;       
    }
     
-   public String listarUsuarios(int posicao){
-       String envio = "";
-       for(int i = 0; i < server.getLogadosSize(); i++){
-           envio.concat(server.getLogados(i)+":");
+   public boolean mensagem(String rem, String dest, String text) throws IOException{
+       String[] partsDests = dest.split(";");
+       ArrayList<ThreadSocket> destinatarios = new ArrayList();
+       int alvo = 0;
+       for(int j = 0; j < partsDests.length; j++){
+        for(int i = 0; i < partsDests.length; i++){
+           if(partsDests[alvo] == server.getConexoes(i).nome)
+               destinatarios.add(server.getConexoes(i));
+               alvo++;
+               
+        }
+       }
+       if(destinatarios.size()!=0){
+           for(int i = 0; i < destinatarios.size(); i++){
+               destinatarios.get(i).saida.writeUTF("mensagem de:"+rem+":"+dest+":"+text);
+           }
+           return true;
+       }
+       return false;
+   }
+   
+   public String listarUsuarios(){
+       String all = "Usuários conectados: ";
+       all = all.concat(server.getLogados(0));
+       for(int i = 1; i < server.getLogadosSize(); i++){
+           all = all.concat(";"+server.getLogados(i));
        }
    
-       return envio;    
+       return all;    
     }
    
    public String listarConexoes(){
-       String all = "";
+       String all = "Usuarios dos seguintes IP's: ";
+       
        for(int i = 0; i < server.getConexoesSize(); i++){
-           all = all.concat(server.getConexoes(i).socket.getInetAddress().toString()+" ");
+           all = all.concat(server.getConexoes(i).socket.getInetAddress().toString()+" | ");
        }
        return all;
    }

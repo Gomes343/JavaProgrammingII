@@ -43,8 +43,8 @@ public class ThreadRecebedor extends Thread{
             String entry = null;
             if(entrada.hasNextLine()){
                 entry = entrada.nextLine();
-                if(!entry.isEmpty())
-                    server.setReceb(entry);
+                
+                    //server.setReceb(entry);
             }
         }
     }  

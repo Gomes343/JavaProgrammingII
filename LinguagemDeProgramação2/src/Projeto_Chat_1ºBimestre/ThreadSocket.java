@@ -22,6 +22,7 @@ public class ThreadSocket implements Runnable{
     static Servidor server = new Servidor();
     int posicao;
     boolean logado = false;
+    String nome;
     
     public ThreadSocket(Socket p,Servidor server, int posicao) throws IOException{
         this.socket = p;
@@ -32,8 +33,9 @@ public class ThreadSocket implements Runnable{
 
     }
     
-    public void setLogado(){
+    public void setLogado(String nome){
         logado = true;
+        this.nome = nome;
     }
 
     public boolean isLogado(){
@@ -52,7 +54,8 @@ public class ThreadSocket implements Runnable{
                 }
             
             while(true){
-                    try { 
+                
+                try { 
                         entry = entrada.readUTF(); 
                     } catch (IOException e) { 
   
@@ -73,21 +76,22 @@ public class ThreadSocket implements Runnable{
         String choicer = parts[0];
         switch(choicer){
             case "login": 
-                if(comandos.login(parts[1],this))
+                if(comandos.login(parts[1],this)){
                     saida.writeUTF("O nome de Usuario foi Registrado com Sucesso");
-                else
+                    String e = comandos.listarUsuarios();
+                    saida.writeUTF(e);
+                }else
                     saida.writeUTF("O Nome de Usuário não pode ser registrado");
                 break;
-            case "listausuarios":
-                String e = comandos.listarUsuarios(posicao);
-                    saida.writeUTF(e);
-                break;
-            case "listaconexoes":
-                String all = comandos.listarConexoes();
-                saida.writeUTF(all);
-                break;
+            case "mensagem":
+                if(comandos.mensagem(this.nome, parts[1], parts[2]))
+                    saida.writeUTF("Mensagem enviada");
+                else
+                    saida.writeUTF("Mensagem não enviada!");
         }
     }
+    
+    
     private void switchcase(String info,int posicao) throws IOException{
         switch(info){
             case "-h":
@@ -96,12 +100,19 @@ public class ThreadSocket implements Runnable{
                         + "\nmensagem:destinatário:texto da mensagem"
                         + "\ntransmitir:remetente:destinatário:texto da mensagem");
                 break;
+            case "listausuarios":
+                String e = comandos.listarUsuarios();
+                    saida.writeUTF(e);
+                break;
+            case "listaconexoes":
+                String all = comandos.listarConexoes();
+                saida.writeUTF(all);
+                break;
             default:
                 saida.writeUTF("Não contêm um comando em sua mensagem;");
                 break;
         }
-    }
-    
+    }    
     
     private boolean format(String formatar) throws IOException{
         if(formatar.contains(":")){
