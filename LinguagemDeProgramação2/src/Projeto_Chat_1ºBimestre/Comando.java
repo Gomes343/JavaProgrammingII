@@ -25,7 +25,7 @@ public class Comando {
     }
 
    public boolean login(String nome,ThreadSocket a) throws IOException{
-       if(a.isLogado() == false){
+       if(!a.isLogado()){
        for(int i = 0; i < server.getLogadosSize(); i++){
            if(server.getLogados(i).equals(nome)){
                System.out.println("SERVER: Socket Morto");
@@ -37,32 +37,37 @@ public class Comando {
        a.setLogado(nome);
        server.setLogados(nome);
        return true; 
-       }else{
-           a.saida.writeUTF("Você já está logado!");
-           return false;
-       }
-       
-   }
-    
-   public boolean mensagem(String rem, String dest, String text) throws IOException{
-       String[] partsDests = dest.split(";");
-       ArrayList<ThreadSocket> destinatarios = new ArrayList();
-       int alvo = 0;
-       for(int j = 0; j < partsDests.length; j++){
-        for(int i = 0; i < partsDests.length; i++){
-           if(partsDests[alvo] == server.getConexoes(i).nome){
-               destinatarios.add(server.getConexoes(i));
-               alvo++;
-           }
-        }
-       }
-       if(destinatarios.size() > 0){
-           for(int i = 0; i < destinatarios.size(); i++){
-               destinatarios.get(i).saida.writeUTF("mensagem de:"+rem+":"+dest+":"+text);
-           }
-           return true;
        }
        return false;
+   }
+    
+   public boolean mensagem(ThreadSocket s, String rem, String dest, String text) throws IOException{
+       if(dest.contains(";")){
+           String[] dests = dest.split(";");
+           System.out.println(dests[0]+dests[1]);
+           System.out.println(dests.length);
+           System.out.println(server.getConexoesSize());
+           String nomes = dests[0];
+           for(int i = 1; i < dests.length; i++){
+               nomes = nomes.concat(";"+dests[i]);
+           }
+           for(int j = 0; j < 3; j++){
+            for(int i = 0; i < 2; i++){
+                System.out.println("Se "+server.getConexoes(j).nome+" == "+dests[i]);
+                if(server.getConexoes(j).nome.equals(dests[i])){
+                    server.getConexoes(j).saida.writeUTF("mensagem de "+rem+":"+nomes+":"+text);
+                }
+            }
+           }
+           return true;
+       }else{
+           for(int i = 0; i < server.getConexoesSize(); i++){
+            if(server.getConexoes(i).nome.equals(dest)){
+                   server.getConexoes(i).saida.writeUTF("mensagem de "+rem+":"+dest+":"+text); 
+            }
+           }
+       }
+        return true;
    }
    
    public String listarUsuarios(){

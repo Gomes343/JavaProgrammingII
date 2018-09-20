@@ -83,7 +83,7 @@ public class ThreadSocket implements Runnable{
                 }
                 break;
             case "mensagem":
-                if(comandos.mensagem(this.nome, parts[1], parts[2]))
+                if(comandos.mensagem(this, this.nome, parts[1], parts[2]))
                     saida.writeUTF("Mensagem enviada");
                 else
                     saida.writeUTF("Mensagem não enviada!");
