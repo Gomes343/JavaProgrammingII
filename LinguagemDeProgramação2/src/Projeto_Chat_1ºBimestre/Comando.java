@@ -44,16 +44,13 @@ public class Comando {
    public boolean mensagem(ThreadSocket s, String rem, String dest, String text) throws IOException{
        if(dest.contains(";")){
            String[] dests = dest.split(";");
-           System.out.println(dests[0]+dests[1]);
-           System.out.println(dests.length);
-           System.out.println(server.getConexoesSize());
            String nomes = dests[0];
            for(int i = 1; i < dests.length; i++){
                nomes = nomes.concat(";"+dests[i]);
            }
-           for(int j = 0; j < 3; j++){
-            for(int i = 0; i < 2; i++){
-                System.out.println("Se "+server.getConexoes(j).nome+" == "+dests[i]);
+           int x = server.getConexoesSize(),y = dests.length;
+           for(int j = 0; j < x; j++){
+            for(int i = 0; i < y; i++){
                 if(server.getConexoes(j).nome.equals(dests[i])){
                     server.getConexoes(j).saida.writeUTF("mensagem de "+rem+":"+nomes+":"+text);
                 }
