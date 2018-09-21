@@ -72,14 +72,14 @@ public class ThreadSocket implements Runnable{
             }
             
     }
+    
     private void switchcase(String[] parts,int posicao) throws IOException{
         String choicer = parts[0];
         switch(choicer){
             case "login": 
                 if(comandos.login(parts[1],this)){
                     saida.writeUTF("O nome de Usuario foi Registrado com Sucesso");
-                    String e = comandos.listarUsuarios();
-                    saida.writeUTF(e);
+                    comandos.informarTodos();
                 }
                 break;
             case "mensagem":
@@ -113,6 +113,7 @@ public class ThreadSocket implements Runnable{
         }
     }    
     
+    
     private boolean format(String formatar) throws IOException{
         if(formatar.contains(":")){
             String[] parts = formatar.split(":"); 
@@ -127,5 +128,6 @@ public class ThreadSocket implements Runnable{
         this.logado = false;
         this.socket.close();
     }
+
 }
 

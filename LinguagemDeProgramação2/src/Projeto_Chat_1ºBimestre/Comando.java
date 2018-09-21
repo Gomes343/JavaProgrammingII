@@ -42,6 +42,13 @@ public class Comando {
    }
     
    public boolean mensagem(ThreadSocket s, String rem, String dest, String text) throws IOException{
+       if(dest.equals("*")){
+           for(int i = 0; i < server.getConexoesSize(); i++){
+               if(server.getConexoes(i).nome!=rem)
+               server.getConexoes(i).saida.writeUTF("transmitindo:"+rem+":"+dest+":"+text);
+           }
+       }
+       
        if(dest.contains(";")){
            String[] dests = dest.split(";");
            String nomes = dests[0];
@@ -52,7 +59,7 @@ public class Comando {
            for(int j = 0; j < x; j++){
             for(int i = 0; i < y; i++){
                 if(server.getConexoes(j).nome.equals(dests[i])){
-                    server.getConexoes(j).saida.writeUTF("mensagem de "+rem+":"+nomes+":"+text);
+                    server.getConexoes(j).saida.writeUTF("transmitindo:"+rem+":"+nomes+":"+text);
                 }
             }
            }
@@ -60,13 +67,19 @@ public class Comando {
        }else{
            for(int i = 0; i < server.getConexoesSize(); i++){
             if(server.getConexoes(i).nome.equals(dest)){
-                   server.getConexoes(i).saida.writeUTF("mensagem de "+rem+":"+dest+":"+text); 
+                   server.getConexoes(i).saida.writeUTF("transmitindo:"+rem+":"+dest+":"+text); 
             }
            }
        }
         return true;
    }
    
+   public void informarTodos() throws IOException{
+       for(int i = 0; i < server.getConexoesSize(); i++){
+            String e = listarUsuarios();
+            server.getConexoes(i).saida.writeUTF(e);
+       }
+   }
    public String listarUsuarios(){
        String all = "Usuários conectados: ";
        all = all.concat(server.getLogados(0));
