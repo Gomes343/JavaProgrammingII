@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/8.0.181" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project01.PrincipalController">
+   <children>
+      <ImageView fitHeight="210.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Linha.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="120.0" layoutY="64.0" text="IP do Servidor" />
+      <TextField fx:id="ip" layoutX="83.0" layoutY="81.0" />
+      <Label layoutX="261.0" layoutY="64.0" text="Port" />
+      <TextField fx:id="port" layoutX="240.0" layoutY="81.0" prefHeight="25.0" prefWidth="64.0" />
+      <Label alignment="CENTER" layoutX="76.0" layoutY="14.0" prefHeight="18.0" prefWidth="240.0" text="CLIENTE - PROJETO DO CHAT">
+         <font>
+            <Font name="Bell MT" size="15.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="Logar" buttonType="RAISED" layoutX="152.0" layoutY="134.0" onAction="#ButtonLogarAction" prefHeight="40.0" prefWidth="88.0" style="-fx-background-color: #FFFFFF;" text="CADASTRAR" />
+   </children>
+</AnchorPane>
