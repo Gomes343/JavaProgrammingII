@@ -1,5 +1,6 @@
 package Chat_UI;
 
+
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -35,7 +36,7 @@ public class PrincipalController implements Initializable {
             InetAddress a = InetAddress.getByAddress(bytes);
             Socket socket = new Socket(a,Integer.parseInt(port.getText()));
             if(socket.isConnected()){
-                
+                /*
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
                 Parent root;
                     try{
@@ -53,7 +54,7 @@ public class PrincipalController implements Initializable {
                     } 
                     catch (IOException e){
                         e.printStackTrace();
-                    }
+                    }*/
             }else{
                 System.out.println(socket.isConnected()+" erro ao socket se conectar");
             }

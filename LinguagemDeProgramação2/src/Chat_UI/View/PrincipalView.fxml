@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/8.0.181" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project01.PrincipalController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/8.0.181" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Chat_UI.PrincipalController">
    <children>
       <ImageView fitHeight="210.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
          <image>
