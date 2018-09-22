@@ -1,7 +1,6 @@
-package Projeto_Chat_1ºBimestre;
+package Projeto_Chat_1ºBimestre.InputStream;
 
-import Projeto_Chat_1ºBimestre.Servidor;
-import static Projeto_Chat_1ºBimestre.Servidor.comandos;
+import static Projeto_Chat_1ºBimestre.InputStream.Servidor.comandos;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -15,8 +14,8 @@ import java.util.logging.Logger;
 
 
 public class ThreadSocket implements Runnable{
-    DataInputStream entrada;
-    DataOutputStream saida;
+        PrintStream saida;
+        Scanner entrada;
     Socket socket;
     Scanner teclado = new Scanner(System.in);
     static Servidor server = new Servidor();
@@ -26,8 +25,8 @@ public class ThreadSocket implements Runnable{
     
     public ThreadSocket(Socket p,Servidor server, int posicao) throws IOException{
         this.socket = p;
-            entrada = new DataInputStream(p.getInputStream()); 
-            saida = new DataOutputStream(p.getOutputStream());
+        saida = new PrintStream(p.getOutputStream());
+        entrada = new Scanner(p.getInputStream());
         this.server = server;
         this.posicao = posicao;
 
@@ -46,21 +45,12 @@ public class ThreadSocket implements Runnable{
 
             String entry = null;
             
-                try {
-                    saida.writeUTF("=== BEM VINDO ===");
-                    saida.writeUTF("Escreva -h para visualizar os comandos");
-                } catch (IOException ex) {
-                    Logger.getLogger(ThreadSocket.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            //saida.println("=== BEM VINDO ===");
+            //saida.println("Escreva -h para visualizar os comandos");
             
             while(true){
                 
-                try { 
-                        entry = entrada.readUTF(); 
-                    } catch (IOException e) { 
-  
-                        e.printStackTrace(); 
-                    } 
+                entry = entrada.nextLine(); 
                 if(!entry.isEmpty()){
                     System.out.println("Mensagem vindo de: "+socket.getInetAddress()+" ---- "+entry+" processado pela thread!");
                     try {
@@ -78,15 +68,16 @@ public class ThreadSocket implements Runnable{
         switch(choicer){
             case "login": 
                 if(comandos.login(parts[1],this)){
-                    saida.writeUTF("O nome de Usuario foi Registrado com Sucesso");
+                    //saida.println("O nome de Usuario foi Registrado com Sucesso");
                     comandos.informarTodos();
                 }
                 break;
             case "mensagem":
                 if(comandos.mensagem(this, this.nome, parts[1], parts[2]))
-                    saida.writeUTF("Mensagem enviada");
-                else
-                    saida.writeUTF("Mensagem não enviada!");
+                    //saida.println("Mensagem enviada");
+                //else
+                    //saida.println("Mensagem não enviada!");
+                    break;
         }
     }
     
@@ -94,21 +85,20 @@ public class ThreadSocket implements Runnable{
     private void switchcase(String info,int posicao) throws IOException{
         switch(info){
             case "-h":
-                saida.writeUTF("login:nome"
-                        + "\nlista_usuarios:nomes"
+                saida.println("login:nome"
                         + "\nmensagem:destinatário:texto da mensagem"
                         + "\ntransmitir:remetente:destinatário:texto da mensagem");
                 break;
             case "listausuarios":
                 String e = comandos.listarUsuarios();
-                    saida.writeUTF(e);
+                    saida.println(e);
                 break;
             case "listaconexoes":
                 String all = comandos.listarConexoes();
-                saida.writeUTF(all);
+                saida.println(all);
                 break;
             default:
-                saida.writeUTF("Não contêm um comando em sua mensagem;");
+                saida.println("Não contêm um comando em sua mensagem;");
                 break;
         }
     }    

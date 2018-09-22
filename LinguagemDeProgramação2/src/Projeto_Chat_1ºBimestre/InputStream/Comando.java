@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Projeto_Chat_1ºBimestre;
+package Projeto_Chat_1ºBimestre.InputStream;
 
-import static Projeto_Chat_1ºBimestre.Servidor.conexoes;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -28,15 +27,25 @@ public class Comando {
        if(!a.isLogado()){
        for(int i = 0; i < server.getLogadosSize(); i++){
            if(server.getLogados(i).equals(nome)){
-               System.out.println("SERVER: Socket Morto");
-               a.saida.writeUTF("O Nome de Usuário não pode ser registrado");
+               System.out.println("SERVER: Socket Morto por nome duplicado");
+               a.saida.println("O Nome de Usuário não pode ser registrado");
                server.KillConexao(i+1);
                return false;
            }   
        }
+           if(nome.equals("*") || nome.equals(":")){
+               System.out.println("SERVER: Socket Morto por nome invalido");
+               a.saida.println("O Nome de Usuário não pode ser registrado");
+               int p = a.posicao;
+               server.KillConexao(p);
+               return false;
+           }
+           
        a.setLogado(nome);
        server.setLogados(nome);
        return true; 
+       }else{
+           a.saida.println("Você já está logado!");
        }
        return false;
    }
@@ -45,7 +54,7 @@ public class Comando {
        if(dest.equals("*")){
            for(int i = 0; i < server.getConexoesSize(); i++){
                if(server.getConexoes(i).nome!=rem)
-               server.getConexoes(i).saida.writeUTF("transmitindo:"+rem+":"+dest+":"+text);
+               server.getConexoes(i).saida.println("transmitindo:"+rem+":"+dest+":"+text);
            }
        }
        
@@ -59,7 +68,7 @@ public class Comando {
            for(int j = 0; j < x; j++){
             for(int i = 0; i < y; i++){
                 if(server.getConexoes(j).nome.equals(dests[i])){
-                    server.getConexoes(j).saida.writeUTF("transmitindo:"+rem+":"+nomes+":"+text);
+                    server.getConexoes(j).saida.println("transmitindo:"+rem+":"+nomes+":"+text);
                 }
             }
            }
@@ -67,7 +76,7 @@ public class Comando {
        }else{
            for(int i = 0; i < server.getConexoesSize(); i++){
             if(server.getConexoes(i).nome.equals(dest)){
-                   server.getConexoes(i).saida.writeUTF("transmitindo:"+rem+":"+dest+":"+text); 
+                   server.getConexoes(i).saida.println("transmitindo:"+rem+":"+dest+":"+text); 
             }
            }
        }
@@ -77,11 +86,11 @@ public class Comando {
    public void informarTodos() throws IOException{
        for(int i = 0; i < server.getConexoesSize(); i++){
             String e = listarUsuarios();
-            server.getConexoes(i).saida.writeUTF(e);
+            server.getConexoes(i).saida.println(e);
        }
    }
    public String listarUsuarios(){
-       String all = "Usuários conectados: ";
+       String all = "lista_usuarios:";
        all = all.concat(server.getLogados(0));
        for(int i = 1; i < server.getLogadosSize(); i++){
            all = all.concat(";"+server.getLogados(i));

@@ -1,4 +1,4 @@
-package Projeto_Chat_1ºBimestre;
+package Projeto_Chat_1ºBimestre.DataStream;
 
 import java.io.IOException;
 import java.io.PrintStream;

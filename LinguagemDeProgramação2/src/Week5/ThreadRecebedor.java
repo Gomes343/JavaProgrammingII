@@ -1,6 +1,6 @@
 package Week5;
 
-import Projeto_Chat_1ºBimestre.Servidor;
+import Projeto_Chat_1ºBimestre.DataStream.Servidor;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
