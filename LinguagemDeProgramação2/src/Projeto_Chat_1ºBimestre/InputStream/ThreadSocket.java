@@ -29,6 +29,7 @@ public class ThreadSocket implements Runnable{
         entrada = new Scanner(p.getInputStream());
         this.server = server;
         this.posicao = posicao;
+//        saida.println("eae");
 
     }
     
