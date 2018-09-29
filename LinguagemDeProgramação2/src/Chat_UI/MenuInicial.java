@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import static java.lang.Thread.sleep;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -41,35 +42,39 @@ public class MenuInicial extends javax.swing.JFrame {
             @Override
             public void run(){ 
                 while (true){ 
-                        s();
+                    try {
+                        EnviarParaTela();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MenuInicial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     } 
                 } 
             } 
         ); 
     
     
-    public void s(){
+    public void EnviarParaTela() throws InterruptedException{
+        sleep(150);
         if(recebido != null){
-            if(fieldChat1.getText().contains(":")){
-                String[] parts = fieldChat1.getText().split(":");
+            if(recebido.contains("lista_usuarios:")){
+                String[] parts = recebido.split(":");
                 String[] parts2 = null;
-                if(parts[0].equals("lista_usuarios"))
                     parts2 = parts[1].split(";");
                         fieldUsuarios1.setText("");
                     for(int i = 0 ; i < parts2.length; i++){
-                        fieldUsuarios1.append(parts[i]);    
+                        fieldUsuarios1.append(parts2[i]+"\n");    
                     }
+            }else{    
                     
-                    
-            }else{
-            fieldChat1.append("eae"+"\n");
+            
+            //fieldChat1.append("eae"+"\n");
             fieldChat1.append(recebido+"\n");
-        recebido = null;
-            }
-        }
-    };
+            recebido = null;
+            //}
+        
+    }}};
     
-    public MenuInicial() {
+    public MenuInicial(){
         initComponents();
     }
 
@@ -103,7 +108,6 @@ public class MenuInicial extends javax.swing.JFrame {
         fieldChat1 = new javax.swing.JTextArea();
         getIP1 = new javax.swing.JTextField();
         buttonEnviar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
 
         jLabel3.setText("Usuários conectados");
 
@@ -119,6 +123,7 @@ public class MenuInicial extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        getPORT.setText("6666");
         getPORT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 getPORTActionPerformed(evt);
@@ -148,14 +153,14 @@ public class MenuInicial extends javax.swing.JFrame {
         fieldChat1.setRows(5);
         jScrollPane4.setViewportView(fieldChat1);
 
+        getIP1.setText("127.0.0.1");
+
         buttonEnviar.setText("Enviar");
         buttonEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonEnviarActionPerformed(evt);
             }
         });
-
-        jLabel1.setText("Isso era pra ser uma mensagem de rodapé xique?");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -174,24 +179,19 @@ public class MenuInicial extends javax.swing.JFrame {
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelPORT)
+                        .addGap(10, 10, 10))
+                    .addComponent(labelIP, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(labelPORT)
-                                .addGap(10, 10, 10))
-                            .addComponent(labelIP, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(getIP1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(buttonConnect))
-                            .addComponent(getPORT, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(261, Short.MAX_VALUE))
+                        .addComponent(getIP1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(buttonConnect))
+                    .addComponent(getPORT, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(398, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,8 +216,7 @@ public class MenuInicial extends javax.swing.JFrame {
                     .addComponent(buttonConnect)
                     .addComponent(getIP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelIP))
-                .addGap(14, 14, 14)
-                .addComponent(jLabel1))
+                .addGap(28, 28, 28))
         );
 
         pack();
@@ -262,7 +261,7 @@ public class MenuInicial extends javax.swing.JFrame {
             Logger.getLogger(MenuInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
+                          //Recebedor.start();
     }//GEN-LAST:event_buttonConnectActionPerformed
 
     /**
@@ -314,7 +313,6 @@ public class MenuInicial extends javax.swing.JFrame {
     private javax.swing.JTextArea fieldUsuarios1;
     public javax.swing.JTextField getIP1;
     private javax.swing.JTextField getPORT;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;

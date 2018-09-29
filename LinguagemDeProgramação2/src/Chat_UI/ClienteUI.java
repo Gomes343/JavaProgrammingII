@@ -38,7 +38,8 @@ public final class ClienteUI{
           
         //Enviador.start(); 
         Recebedor.start(); 
-  
+
+                  menu.Recebedor.start();
     
     }
     
@@ -46,7 +47,6 @@ public final class ClienteUI{
         Thread Enviador = new Thread(new Runnable()  { 
             @Override
             public void run(){ 
-                menu.Recebedor.start();
                 while (true){ 
                     String enviar = sc.nextLine(); 
                     menu.setString(enviar);
@@ -58,7 +58,6 @@ public final class ClienteUI{
         Thread Recebedor = new Thread(new Runnable(){ 
             @Override
             public void run(){ 
-                menu.Recebedor.start();
                 while (true){ 
                         String receber = entrada.nextLine();
                         menu.setString(receber);

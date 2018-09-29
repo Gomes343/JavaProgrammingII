@@ -25,12 +25,18 @@ public class ThreadSocket implements Runnable{
     
     public ThreadSocket(Socket p,Servidor server, int posicao) throws IOException{
         this.socket = p;
-        saida = new PrintStream(p.getOutputStream());
-        entrada = new Scanner(p.getInputStream());
         this.server = server;
+            saida = new PrintStream(socket.getOutputStream());
+            entrada = new Scanner(socket.getInputStream());
         this.posicao = posicao;
-//        saida.println("eae");
+        //saida.println("eae");
 
+    }
+    
+    public void liberarAcesso() throws IOException{
+        if(this.isLogado())
+            saida = new PrintStream(socket.getOutputStream());
+            entrada = new Scanner(socket.getInputStream());
     }
     
     public void setLogado(String nome){
@@ -103,9 +109,15 @@ public class ThreadSocket implements Runnable{
                 break;
         }
     }    
-    
+    /*
+    public void renovar(){
+        for(int i = 0; i < server.getConexoesSize(); i++){
+                server.getConexoes(i).saida.
+        }
+    }*/
     
     private boolean format(String formatar) throws IOException{
+        formatar = formatar.toLowerCase();
         if(formatar.contains(":")){
             String[] parts = formatar.split(":"); 
             switchcase(parts,posicao);
